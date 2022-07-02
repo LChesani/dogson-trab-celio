@@ -43,7 +43,7 @@ void printa_lista(Lista *ini){
 int pesquisa(FILE *arq, int matr, reg_aluno *al, Lista *l)
 {
     Lista *p = l;
-    int pos_seek = 0;
+    int pos_seek = 60;
     while(p != NULL){
         if(p->i.matr == matr){
             pos_seek = p->i.pos_seek;
@@ -51,9 +51,10 @@ int pesquisa(FILE *arq, int matr, reg_aluno *al, Lista *l)
             break;
         }
     }
-    fseek(arq, 0, pos_seek); //seta o arquivo na posicao de pesquisa
+    fseek(arq, pos_seek, SEEK_SET); //seta o arquivo na posicao de pesquisa
     reg_aluno aluno;
     //rewind(arq);
+    printf("ftell: %ld", ftell(arq));
     while (fread(&aluno, sizeof(aluno), 1, arq))
         if (aluno.matr == matr && aluno.excluido == 0)
         {

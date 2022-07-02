@@ -40,10 +40,20 @@ void printa_lista(Lista *ini){
     p = p->prox;
   }
 }
-int pesquisa(FILE *arq, int matr, reg_aluno *al)
+int pesquisa(FILE *arq, int matr, reg_aluno *al, Lista *l)
 {
+    Lista *p = l;
+    int pos_seek = 0;
+    while(p != NULL){
+        if(p->i.matr == matr){
+            pos_seek = p->i.pos_seek;
+          printf("cachorroncio: %d", pos_seek);
+            break;
+        }
+    }
+    fseek(arq, 0, pos_seek); //seta o arquivo na posicao de pesquisa
     reg_aluno aluno;
-    rewind(arq);
+    //rewind(arq);
     while (fread(&aluno, sizeof(aluno), 1, arq))
         if (aluno.matr == matr && aluno.excluido == 0)
         {
@@ -52,10 +62,10 @@ int pesquisa(FILE *arq, int matr, reg_aluno *al)
         }
     return 0;
 }
-void exclui(FILE *arq, int matr)
+void exclui(FILE *arq, int matr, Lista *lista)
 {
     reg_aluno aluno;
-    if (pesquisa(arq, matr, &aluno))
+    if (pesquisa(arq, matr, &aluno, lista))
     {
         int excl = 1;
         printf("Excluindo: %s\n", aluno.nome);
@@ -134,7 +144,7 @@ int main(void)
         case 2:
             printf("\nDigite a matricula a ser buscada: ");
             scanf("%d", &matr);
-            if (pesquisa(arq, matr, &aluno))
+            if (pesquisa(arq, matr, &aluno, lista))
             {
                 printf("\nAluno encontrado:\n");
                 printf("%d\t%s\t%d\t%d\n", aluno.matr, aluno.nome, aluno.nota1, aluno.nota2);
@@ -148,7 +158,7 @@ int main(void)
         case 4:
             printf("\nDigite a matricula a ser excluida: ");
             scanf("%d", &matr);
-            exclui(arq, matr);
+            exclui(arq, matr, lista);
             break;
         case 5:
             printf("\nSaindo...\n\n");

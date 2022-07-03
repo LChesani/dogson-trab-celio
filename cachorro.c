@@ -43,7 +43,7 @@ void printa_lista(Lista *ini){
 int pesquisa(FILE *arq, int matr, reg_aluno *al, Lista *l)
 {
     Lista *p = l;
-    int pos_seek = 60;
+    int pos_seek = 44;
     while(p != NULL){
         if(p->i.matr == matr){
             pos_seek = p->i.pos_seek;
@@ -117,6 +117,7 @@ void inclui(FILE *arq, Lista *it)
     scanf("%d%s%d%d", &aluno.matr, aluno.nome, &aluno.nota1, &aluno.nota2);
     indice_.matr = aluno.matr;
     indice_.pos_seek = ftell(arq);
+    printf("\nftell na hora de inserir: %d", indice_.pos_seek);
     lista_insere(&it, indice_);
     aluno.excluido = 0;
     fwrite(&aluno, sizeof(aluno), 1, arq);

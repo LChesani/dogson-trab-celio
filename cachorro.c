@@ -43,11 +43,11 @@ void printa_lista(Lista *ini){
 int pesquisa(FILE *arq, int matr, reg_aluno *al, Lista *l)
 {
     Lista *p = l;
-    int pos_seek = 44;
+    int pos_seek = 0;
     while(p != NULL){
         if(p->i.matr == matr){
             pos_seek = p->i.pos_seek;
-          printf("cachorroncio: %d", pos_seek);
+            printf("cachorroncio: %d", pos_seek);
             break;
         }
     }
